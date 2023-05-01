@@ -3,6 +3,7 @@ package com.example.BankAccountSystem.Models;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -13,11 +14,11 @@ import java.util.Date;
 @Data
 @MappedSuperclass
 public class BaseEntity {
-    @CreatedDate
+    @CreationTimestamp
     Date createdDate;
 
     @UpdateTimestamp
     Date updatedDate;
-    Boolean isActive;
+    String isActive;
 
 }

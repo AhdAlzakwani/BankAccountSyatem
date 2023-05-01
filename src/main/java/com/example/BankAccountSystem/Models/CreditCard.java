@@ -17,12 +17,10 @@ public class CreditCard extends BaseEntity{
 
     Integer cardNumber;
 
-    String cardStatus;
-
     Double credirCardBalanse;
 
     @ManyToOne
     @JoinColumn(name = "Customer_id",referencedColumnName = "id")
-    Coustomer coustomer;
+    Customer coustomer;
 
 }

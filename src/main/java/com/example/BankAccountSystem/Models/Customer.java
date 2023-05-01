@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Setter
 @Data
 @Entity
-public class Coustomer {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
@@ -26,5 +26,7 @@ public class Coustomer {
     String customerGender;
 
     String customerPhoneNumber;
+
+    String customerEmail;
 
 }

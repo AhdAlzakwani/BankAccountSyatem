@@ -21,12 +21,9 @@ public class Account extends BaseEntity{
 
     Double accountBalance;
 
-    String accountStatus;
-
-
     @ManyToOne
     @JoinColumn(name = "Customer_id",referencedColumnName = "id")
-    Coustomer coustomer;
+    Customer coustomer;
 
 
 }
