@@ -19,7 +19,7 @@ public class Transaction extends BaseEntity{
     Integer amount;
 
     @ManyToOne
-    @JoinColumn(name = "Customer_id",referencedColumnName = "id")
+    @JoinColumn(name = "account_id",referencedColumnName = "id")
     Account account;
 
 }

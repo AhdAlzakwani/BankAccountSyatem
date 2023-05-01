@@ -1,6 +1,7 @@
 package com.example.BankAccountSystem.Controller;
 
 import com.example.BankAccountSystem.Models.Transaction;
+import com.example.BankAccountSystem.ObjectRequest.AccountTransection;
 import com.example.BankAccountSystem.ObjectRequest.AddNewAccountForStudent;
 import com.example.BankAccountSystem.Services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class TransactionController {
     TransactionService transactionService;
 
     @RequestMapping(value = "addTransaction", method = RequestMethod.POST)
-    public String addTransaction(@RequestBody Transaction transaction) {
+    public String addTransaction(@RequestBody AccountTransection transaction) {
         transactionService.addTransaction(transaction);
         String transactions = "Transaction Add Successfully";
 //        slackClient.sendMessage(sName);
