@@ -24,8 +24,23 @@ CustomerReprository customerReprository;
         account.setAccountBalance(accountInfo.getAccountBalance());
         Integer customerId = customerReprository.findById(accountInfo.getCustomerName());
         Customer customer = customerReprository.findById(customerId).get();
-        account.setCoustomer(customer);
+        account.setCustomer(customer);
         account.setIsActive(accountInfo.getIsActive());
         accountReprository.save(account);
     }
+
+
+    public Account getBalanceBySpacificAccount(Integer accountNumber){
+        Account account = accountReprository.getBalanceBySpacificAccount(accountNumber);
+        return  account;
+    }
+
+    public List<Account> getCustomerAccountInformation(Integer customerId){
+        List<Account> account = accountReprository.getCustomerAccountInformation(customerId);
+        return  account;
+    }
+
+
+
+
 }

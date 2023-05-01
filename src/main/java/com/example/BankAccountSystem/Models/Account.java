@@ -21,9 +21,10 @@ public class Account extends BaseEntity{
 
     Double accountBalance;
 
+
     @ManyToOne
     @JoinColumn(name = "Customer_id",referencedColumnName = "id")
-    Customer coustomer;
+    Customer customer;
 
 
 }
