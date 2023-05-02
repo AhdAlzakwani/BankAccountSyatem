@@ -7,16 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class AccountTransection {
+public class NewCreditCardInfo {
 
-    Integer id;
-
-    Integer customerId;
-
-    Integer accountNumber;
-
-    Integer accountAmount;
+    Integer cardNumber;
+    String customerName;
 
     String isActive;
-
 }
