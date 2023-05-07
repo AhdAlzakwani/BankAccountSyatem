@@ -27,6 +27,14 @@ public interface AccountReprository extends JpaRepository<Account, Integer> {
     @Query(value = "Select a from Account a Where a.id = :accountId")
     Account getAccountById(@Param("accountId") Integer accountId);
 
+    List<Account> getAllByCustomer(Customer customer);
+
+    @Query(value = "Select a from Account a Where a.customer.id = :customerId")
+    Account getAccountByCustomerId(@Param("customerId") Integer customerId);
+
+
+
+
 
 
 }

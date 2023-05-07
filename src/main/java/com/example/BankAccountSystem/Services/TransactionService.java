@@ -15,6 +15,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionService {
 
@@ -107,5 +109,12 @@ AccountReprository accountReprository;
 
 
 
+    }
+
+
+    public List<Transaction> getCustomerTransactionAccountList(Integer customerId){
+        Account account = accountReprository.getAccountByCustomerId(customerId);
+        List<Transaction> transactions = transactionReprository.getAllByAccount(account);
+        return transactions;
     }
 }
