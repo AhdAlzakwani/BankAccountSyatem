@@ -16,6 +16,7 @@ public class Account extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+
     Integer accountNumber;
 
 

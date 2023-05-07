@@ -11,8 +11,6 @@ public class NewLoanRequest {
 
     Integer amount;
 
-    Double interest;
-
     Integer accountNumber;
 
     String isActive;

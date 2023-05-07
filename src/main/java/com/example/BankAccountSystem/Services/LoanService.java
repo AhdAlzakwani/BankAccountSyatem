@@ -1,5 +1,6 @@
 package com.example.BankAccountSystem.Services;
 
+import com.example.BankAccountSystem.Models.Account;
 import com.example.BankAccountSystem.Models.Customer;
 import com.example.BankAccountSystem.Models.Loan;
 import com.example.BankAccountSystem.ObjectRequest.NewLoanRequest;
@@ -24,14 +25,40 @@ Double interest = 3.5;
         Loan loan = new Loan();
         loan.setAmount(loanInfo.getAmount());
         loan.setIsActive(loanInfo.getIsActive());
-        Integer customerId = accountReprository.findByAccountNumber(loanInfo.getAccountNumber());
+        Integer customerId = accountReprository.getCustomerIdByaccountNumber(loanInfo.getAccountNumber());
         Customer customer = customerReprository.findById(customerId).get();
         loan.setCoustomer(customer);
-        loan.setInterest(loanInfo.getAmount() * interest );
+        loan.setInterest(loanInfo.getAmount() * interest);
         loanReprository.save(loan);
+
+
+        Account account = new Account();
+        Integer accountID = accountReprository.findByAccountNumber(loanInfo.getAccountNumber());
+        account.setId(accountID);
+        account.setAccountNumber(loanInfo.getAccountNumber());
+        account.setIsActive(loanInfo.getIsActive());
+        Double accountBalance = accountReprository.getBalanceByAccountNumber(loanInfo.getAccountNumber());
+        Double newBalance = loanInfo.getAmount() + accountBalance;
+        account.setAccountBalance(newBalance);
+        account.setCustomer(customer);
+        account.setUpdatedDate(account.getUpdatedDate());
+        accountReprository.save(account);
+
+
+
+
     }
 
     public String getCustomerStatusOfLoan( Integer customerId){
         return loanReprository.getCustomerStatusOfLoan(customerId);
+    }
+
+    public String getStatusOfLoan(Integer loanId){
+        return loanReprository.getStatusOfLoan(loanId);
+    }
+
+    public void deleteLoan(Integer id){
+
+         loanReprository.deleteLona(id);
     }
 }
