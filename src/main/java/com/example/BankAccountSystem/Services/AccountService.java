@@ -4,6 +4,7 @@ import com.example.BankAccountSystem.Models.Account;
 import com.example.BankAccountSystem.Models.Customer;
 import com.example.BankAccountSystem.Models.Loan;
 import com.example.BankAccountSystem.Models.Transaction;
+import com.example.BankAccountSystem.ObjectRequest.AccountInfo;
 import com.example.BankAccountSystem.ObjectRequest.AddNewAccountForStudent;
 import com.example.BankAccountSystem.Reprository.AccountReprository;
 import com.example.BankAccountSystem.Reprository.CustomerReprository;
@@ -36,6 +37,23 @@ CustomerReprository customerReprository;
         account.setCustomer(customer);
         account.setIsActive(accountInfo.getIsActive());
         accountReprository.save(account);
+    }
+
+
+    public void updateAccount(AccountInfo accountInfo) {
+        Account account = new Account();
+        account.setId(accountInfo.getId());
+        account.setAccountNumber(accountInfo.getAccountNumber());
+        account.setIsActive(accountInfo.getIsActive());
+        Customer customer = customerReprository.findById(accountInfo.getCustomerId()).get();
+        account.setCustomer(customer);
+        accountReprository.save(account);
+
+
+    }
+
+        public void deleteAccount(Integer id){
+        accountReprository.deleteCustomer(id);
     }
 
 

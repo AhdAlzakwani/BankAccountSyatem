@@ -32,6 +32,9 @@ public interface AccountReprository extends JpaRepository<Account, Integer> {
     @Query(value = "Select a from Account a Where a.customer.id = :customerId")
     Account getAccountByCustomerId(@Param("customerId") Integer customerId);
 
+    @Query(value = "Update Account c SET c.isActive=0 WHERE c.id = :id")
+    void deleteCustomer(@Param("id")Integer id);
+
 
 
 
