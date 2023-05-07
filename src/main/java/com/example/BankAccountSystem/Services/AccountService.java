@@ -53,7 +53,7 @@ CustomerReprository customerReprository;
     }
 
         public void deleteAccount(Integer id){
-        accountReprository.deleteCustomer(id);
+        accountReprository.deleteAccount(id);
     }
 
 

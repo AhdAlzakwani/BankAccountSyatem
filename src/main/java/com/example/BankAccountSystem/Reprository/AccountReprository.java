@@ -33,7 +33,7 @@ public interface AccountReprository extends JpaRepository<Account, Integer> {
     Account getAccountByCustomerId(@Param("customerId") Integer customerId);
 
     @Query(value = "Update Account c SET c.isActive=0 WHERE c.id = :id")
-    void deleteCustomer(@Param("id")Integer id);
+    void deleteAccount(@Param("id")Integer id);
 
 
 

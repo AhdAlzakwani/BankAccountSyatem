@@ -5,6 +5,7 @@ import com.example.BankAccountSystem.Models.Customer;
 import com.example.BankAccountSystem.Models.Transaction;
 import com.example.BankAccountSystem.ObjectRequest.AccountTransection;
 import com.example.BankAccountSystem.ObjectRequest.AddNewAccountForStudent;
+import com.example.BankAccountSystem.ObjectRequest.UpdateTransactionRequest;
 import com.example.BankAccountSystem.Reprository.AccountReprository;
 import com.example.BankAccountSystem.Reprository.CustomerReprository;
 import com.example.BankAccountSystem.Reprository.TransactionReprository;
@@ -117,4 +118,28 @@ AccountReprository accountReprository;
         List<Transaction> transactions = transactionReprository.getAllByAccount(account);
         return transactions;
     }
+public void updateTransaction(UpdateTransactionRequest updateTransactionRequest){
+    Transaction transactions = new Transaction();
+    transactions.setId(updateTransactionRequest.getId());
+    transactions.setAmount(transactions.getAmount());
+    Integer accountId = accountReprository.findByAccountNumber(updateTransactionRequest.getAccountNumber());
+    Account customer = accountReprository.findById(accountId).get();
+    transactions.setAccount(customer);
+    transactions.setIsActive(updateTransactionRequest.getIsActive());
 }
+
+    public void deleteTransaction(Integer id){
+        transactionReprository.deleteTransaction(id);
+    }
+
+    public Transaction retriveDetailsForSpecificTransaction(Integer transactionId){
+
+        return transactionReprository.retriveDetailsForSpecificTransaction(transactionId);
+    }
+    public List<Transaction> retrieveAllTransactionDetailsForSpecificAccount(Integer accountId){
+
+        return transactionReprository.retrieveAllTransactionDetailsForSpecificAccount(accountId);
+    }
+
+}
+

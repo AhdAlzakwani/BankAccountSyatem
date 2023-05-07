@@ -3,15 +3,15 @@ package com.example.BankAccountSystem.Controller;
 import com.example.BankAccountSystem.Models.Transaction;
 import com.example.BankAccountSystem.ObjectRequest.AccountTransection;
 import com.example.BankAccountSystem.ObjectRequest.AddNewAccountForStudent;
+import com.example.BankAccountSystem.ObjectRequest.UpdateTransactionRequest;
 import com.example.BankAccountSystem.Services.TransactionService;
 import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/transaction")
@@ -30,6 +30,43 @@ public class TransactionController {
         transactionService.addTransaction(transaction);
 
     }
+
+    @RequestMapping(value = "updateTransaction", method = RequestMethod.POST)
+    public String updateTransaction(@RequestBody UpdateTransactionRequest updateTransactionRequest) {
+        try {
+            transactionService.updateTransaction(updateTransactionRequest);
+            return "Transaction Updated Successfully";
+
+        }catch (Exception e){
+            return "Transaction Update Failed";
+        }
+
+    }
+
+    @RequestMapping(value = "deleteTransaction", method = RequestMethod.POST)
+    public String deleteTransaction(Integer id){
+        try{
+            transactionService.deleteTransaction(id);
+            return "Transaction deleted Successfully";
+
+        }catch (Exception e) {
+            return "Transaction delete failed";
+        }
+
+    }
+
+    @RequestMapping(value = "retrieveDetailsForSpecificTransaction", method = RequestMethod.GET)
+    public Transaction retriveDetailsForSpecificTransaction(@RequestParam Integer transactionId){
+        return transactionService.retriveDetailsForSpecificTransaction(transactionId);
+    }
+
+    @RequestMapping(value = "retrieveAllTransactionDetailsForSpecificAccount", method = RequestMethod.GET)
+    public List<Transaction> retrieveAllTransactionDetailsForSpecificAccount(@RequestParam Integer accountId){
+        return transactionService.retrieveAllTransactionDetailsForSpecificAccount(accountId);
+    }
+
+
+
 
 
 
