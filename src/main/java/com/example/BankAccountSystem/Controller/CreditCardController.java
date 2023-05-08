@@ -3,6 +3,7 @@ package com.example.BankAccountSystem.Controller;
 import com.example.BankAccountSystem.Models.Account;
 import com.example.BankAccountSystem.Models.CreditCard;
 import com.example.BankAccountSystem.ObjectRequest.AddNewAccountForStudent;
+import com.example.BankAccountSystem.ObjectRequest.CustomerPayment;
 import com.example.BankAccountSystem.ObjectRequest.NewCreditCardInfo;
 import com.example.BankAccountSystem.Services.CreditCardService;
 import com.example.BankAccountSystem.Slack.SlackClient;
@@ -42,4 +43,15 @@ public class CreditCardController {
         CreditCard creditCard = creditCardService.deletedCreditCard(cardNumber);
         return "creditCard Offline Successfully";
     }
+
+    @RequestMapping(value = "customerPaymentCreditCard", method = RequestMethod.POST)
+    public String getCustomerPaymentCreditCard(@RequestBody CustomerPayment customerPayment){
+        try{
+         creditCardService.addCreditCardPayment(customerPayment);
+            return "Payment Send Successfully";
+    }catch (Exception e){
+            return "Payment Can't Send";
+        }
+    }
+
 }

@@ -25,6 +25,12 @@ public interface CustomerReprository extends JpaRepository<Customer, Integer> {
     @Query(value = "Select id from customer Where customer_name = :customerName", nativeQuery = true)
     Integer findByIdAccountNumber(@Param("customerName") String Acc);
 
+
+
+
+
+
+
 //    @Query(value = "Update customer c SET c,isActive=0 WHERE c.id = :id")
 //    void deleteCustomer(@Param("id")Integer id);
 

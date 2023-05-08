@@ -6,14 +6,22 @@ import com.example.BankAccountSystem.Models.Loan;
 import com.example.BankAccountSystem.Models.Transaction;
 import com.example.BankAccountSystem.ObjectRequest.AccountInfo;
 import com.example.BankAccountSystem.ObjectRequest.AddNewAccountForStudent;
+import com.example.BankAccountSystem.ObjectRequest.MonthlyStatmentReportForAccount;
 import com.example.BankAccountSystem.Reprository.AccountReprository;
 import com.example.BankAccountSystem.Reprository.CustomerReprository;
 import com.example.BankAccountSystem.Reprository.LoanReprository;
 import com.example.BankAccountSystem.Reprository.TransactionReprository;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AccountService {
@@ -25,6 +33,8 @@ CustomerReprository customerReprository;
 
 @Autowired
     TransactionReprository transactionReprository;
+
+    public static final String pathToReports = "C:\\Users\\User009\\Downloads\\reports";
 
 
     public void addAccount(AddNewAccountForStudent accountInfo){
@@ -78,6 +88,33 @@ CustomerReprository customerReprository;
                 "Customer Phone: " + customer.getCustomerPhoneNumber() + "\n" +
                 "Account Balance: " + account.getAccountBalance() + "\n";
         return statementForAccount;
+    }
+
+    public String generateReportMonthlyStatementsForAccount() throws FileNotFoundException, JRException {
+        List<Account> account = accountReprository.findAll();
+        List<MonthlyStatmentReportForAccount> monthlyStatmentReportForAccountsList = new ArrayList<>();
+       for (Account a:account) {
+           Integer accounId= a.getId();
+           String customerName = a.getCustomer().getCustomerName();
+           String customerEmail =a.getCustomer().getCustomerEmail();
+           String customerPhoneNumber = a.getCustomer().getCustomerPhoneNumber();
+           Double accountBalance = a.getAccountBalance();
+           MonthlyStatmentReportForAccount accountReport = new MonthlyStatmentReportForAccount( accounId,  customerName,  customerEmail, customerPhoneNumber, accountBalance);
+           monthlyStatmentReportForAccountsList.add(accountReport);
+
+       }
+
+
+
+        File file = new File("C:\\Users\\User009\\Downloads\\BankAccountSystem\\BankAccountSystem\\src\\main\\resources\\monthlyStatmentReportForAccountsList.jrxml");
+//        File file = new File("src/main/resources/monthlyStatmentReportForAccountsList.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(monthlyStatmentReportForAccountsList);
+        Map<String, Object> paramters = new HashMap<>();
+        paramters.put("CreatedBy", "AhdYahya");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,paramters , dataSource);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, pathToReports+"\\monthlyStatmentReportForAccountsList.pdf");
+        return "Report generated : " + pathToReports+"\\monthlyStatmentReportForAccountsList.pdf";
     }
 
 

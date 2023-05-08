@@ -14,6 +14,7 @@ public interface TransactionReprository extends JpaRepository<Transaction, Integ
 
     List<Transaction> getAllByAccount(Account account);
 
+    Transaction getByAccount(Account account);
     @Query(value = "UPDATE bank_transaction SET is_active='false' WHERE id = :id",nativeQuery = true)
     void deleteTransaction(@Param("id")Integer id);
 

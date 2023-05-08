@@ -61,6 +61,8 @@ public class AccountController {
 
 
 
+
+
     @RequestMapping(value = "retriveBalanceBySpacificAccount", method = RequestMethod.GET)
     public Account getBalanceBySpacificAccount(@RequestParam Integer accountNumber){
         Account account = accountService.getBalanceBySpacificAccount(accountNumber);
@@ -87,6 +89,12 @@ public class AccountController {
     public String generateMonthlyStatementForAccount(@RequestParam Integer accountId) {
         String statement = accountService.generateMonthlyStatement(accountId);
         return statement;
+    }
+
+    @RequestMapping(value = "generateReportMonthlyStatementsForAccount", method = RequestMethod.GET)
+    public void generateReport() throws Exception {
+        accountService.generateReportMonthlyStatementsForAccount();
+
     }
 
     @RequestMapping(value = "getAccountHistory", method = RequestMethod.GET)
