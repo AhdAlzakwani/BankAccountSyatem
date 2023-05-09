@@ -19,6 +19,8 @@ public class CreditCard extends BaseEntity{
 
     Double credirCardBalanse;
 
+    Double payment;
+
     @ManyToOne
     @JoinColumn(name = "Customer_id",referencedColumnName = "id")
     Customer coustomer;

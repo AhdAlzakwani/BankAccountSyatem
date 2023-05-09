@@ -3,18 +3,25 @@ package com.example.BankAccountSystem.Services;
 import com.example.BankAccountSystem.Models.Account;
 import com.example.BankAccountSystem.Models.CreditCard;
 import com.example.BankAccountSystem.Models.Customer;
+import com.example.BankAccountSystem.Models.Transaction;
+import com.example.BankAccountSystem.ObjectRequest.CreditCardReport;
 import com.example.BankAccountSystem.ObjectRequest.CustomerPayment;
+import com.example.BankAccountSystem.ObjectRequest.GeneRateReportOffAllTransactionsWithinASpecificTimePeriod;
 import com.example.BankAccountSystem.ObjectRequest.NewCreditCardInfo;
 import com.example.BankAccountSystem.Reprository.AccountReprository;
 import com.example.BankAccountSystem.Reprository.CridetCardReprository;
 import com.example.BankAccountSystem.Reprository.CustomerReprository;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 @Service
 public class CreditCardService {
@@ -30,6 +37,8 @@ public class CreditCardService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    public static final String pathToReports = "C:\\Users\\User009\\Downloads\\reports";
 
     @Value("${spring.mail.username}")
     private String sender;
@@ -71,6 +80,7 @@ public class CreditCardService {
         creditCard.setCardNumber(customerPayment.getCreditCardNumber());
 
         Double creditCardBalance = cridetCardReprository.getCresitCardBalance(customerPayment.getCreditCardNumber());
+        creditCard.setPayment(customerPayment.getPayment());
         Double balance = creditCardBalance - customerPayment.getPayment();
         creditCard.setCredirCardBalanse(balance);
 
@@ -115,6 +125,36 @@ public class CreditCardService {
 
 
     }
+
+    public String generateCreditCardReport() throws FileNotFoundException, JRException {
+
+        List<CreditCard> creditCards = cridetCardReprository.findAll();
+        List<CreditCardReport>  creditCardReports = new ArrayList<>();
+        for (CreditCard card:creditCards) {
+            Integer creditCardId = card.getId();
+            Integer cardNumber  = card.getCardNumber();
+            Integer customerId =card.getCoustomer().getId();
+            Double creditCardBalance = card.getCredirCardBalanse();
+            Double payment = card.getPayment();
+            CreditCardReport accountReport = new
+                    CreditCardReport( creditCardId,  cardNumber,  customerId, creditCardBalance, payment);
+            creditCardReports.add(accountReport);
+
+        }
+
+
+
+        File file = new File("C:\\Users\\User009\\Downloads\\BankAccountSystem\\BankAccountSystem\\src\\main\\resources\\generateCreditCardReport.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(creditCardReports);
+        Map<String, Object> paramters = new HashMap<>();
+        paramters.put("CreatedBy", "AhdYahya");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,paramters , dataSource);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, pathToReports+"\\generateCreditCardReport.pdf");
+        return "Report generated : " + pathToReports+"\\generateCreditCardReport.pdf";
+    }
+
+
 
 
 }

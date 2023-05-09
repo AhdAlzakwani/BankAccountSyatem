@@ -54,4 +54,13 @@ public class CreditCardController {
         }
     }
 
+
+    @RequestMapping(value = "generateCreditCardReport", method = RequestMethod.GET)
+    public void generateReport() throws Exception {
+        creditCardService.generateCreditCardReport();
+
+
+
+    }
+
 }

@@ -27,13 +27,21 @@ public class LoanController {
     @Autowired
     TransactionService transactionService;
 
+    @Autowired
+    SlackClient slackClient;
+
 
     @RequestMapping(value = "addLoan", method = RequestMethod.POST)
     public String addLoan(@RequestBody NewLoanRequest loan) {
         try {
             loanService.applyNewLoan(loan);
+            slackClient.sendMessage("Loan Approved");
+
             return  "Loan Added Successfully";
+
         }catch (Exception e){
+            slackClient.sendMessage("Loan Rejected");
+
             return "Loan Added Failed";
 
         }
