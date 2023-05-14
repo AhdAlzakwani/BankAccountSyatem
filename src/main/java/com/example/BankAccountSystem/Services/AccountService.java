@@ -125,10 +125,10 @@ CustomerReprository customerReprository;
     }
 
 
+    public Double calculateInterestOnAccountBalance(Integer accountNumber) {
+        Double accountBalance = accountReprository.getBalanceByAccountNumber(accountNumber);
+        Double interest = 2.5;
+        return accountBalance * interest;
 
-
-
-
-
-
+    }
 }

@@ -56,6 +56,13 @@ public class CustomerController {
         return cName;
 
     }
+
+    @RequestMapping(value = "getCustomerAccountInformation", method = RequestMethod.GET)
+    public List<Account> getCustomerAccountInformation(@RequestParam Integer customerId) {
+        List<Account> account = customerService.getCustomerAccountInformation(customerId);
+        return account;
+    }
+
     @RequestMapping(value = "deleteCustomer", method = RequestMethod.POST)
     public String deleteCustomer(Integer id){
         try{
@@ -85,11 +92,7 @@ public class CustomerController {
 
     }
 
-    @RequestMapping(value = "getCustomerAccountInformation", method = RequestMethod.GET)
-    public List<Account> getCustomerAccountInformation(@RequestParam Integer customerId) {
-        List<Account> account = customerService.getCustomerAccountInformation(customerId);
-        return account;
-    }
+
 
     @RequestMapping(value = "getCustomerStatusOfCreditCard", method = RequestMethod.GET)
     public String getCustomerStatusOfCreditCard(@RequestParam Integer cardNumber) {

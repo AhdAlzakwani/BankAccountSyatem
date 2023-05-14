@@ -85,6 +85,12 @@ public class AccountController {
     }
 
 
+    @RequestMapping(value = "calculateInterestOnAccountBalance", method = RequestMethod.GET)
+    public Double calculateInterestOnAccountBalance(@RequestParam Integer accountNumber){
+        return accountService.calculateInterestOnAccountBalance(accountNumber);
+    }
+
+
     @RequestMapping(value = "getMonthlyStatementsForAccount", method = RequestMethod.GET)
     public String generateMonthlyStatementForAccount(@RequestParam Integer accountId) {
         String statement = accountService.generateMonthlyStatement(accountId);
