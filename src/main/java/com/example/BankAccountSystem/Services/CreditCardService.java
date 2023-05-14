@@ -50,9 +50,6 @@ public class CreditCardService {
         Integer cusid = customerReprository.findByCustomerName(customerName);
         Customer customerId = customerReprository.findById(cusid).get();
 
-
-
-
         Double balance = accountReprository.getBalanceByCustomerId(cusid);
         creditCardInfo.setCredirCardBalanse(balance);
         creditCardInfo.setIsActive(creditCard.getIsActive());

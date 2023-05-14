@@ -4,6 +4,7 @@ import com.example.BankAccountSystem.Models.Account;
 import com.example.BankAccountSystem.Models.Customer;
 import com.example.BankAccountSystem.Models.Loan;
 import com.example.BankAccountSystem.Models.Transaction;
+import com.example.BankAccountSystem.ObjectRequest.NewCreditCardInfo;
 import com.example.BankAccountSystem.ObjectRequest.NewLoanRequest;
 import com.example.BankAccountSystem.ObjectRequest.UpdateCustomerInfo;
 import com.example.BankAccountSystem.Services.*;
@@ -62,6 +63,35 @@ public class CustomerController {
         List<Account> account = customerService.getCustomerAccountInformation(customerId);
         return account;
     }
+    @RequestMapping(value = "applyNewLoan", method = RequestMethod.POST)
+    public String applyNewLoan(@RequestBody NewLoanRequest loanInfo) {
+        loanService.applyNewLoan(loanInfo);
+        String cLoan = "New Loan For Customer Add Successfully";
+        slackClient.sendMessage(cLoan);
+        return cLoan;
+
+    }
+
+
+    @RequestMapping(value = "applyCreditCard", method = RequestMethod.POST)
+    public String applyCreditCard(@RequestBody NewCreditCardInfo creditCard) {
+        creditCardService.addCreditCard(creditCard);
+        String creditCards = "CreditCard Add Successfully";
+        slackClient.sendMessage(creditCards);
+        return creditCards;
+
+    }
+
+
+    @RequestMapping(value = "getCustomerStatusOfCreditCard", method = RequestMethod.GET)
+    public String getCustomerStatusOfCreditCard(@RequestParam Integer cardNumber) {
+        return creditCardService.getStatusOfCreditCard(cardNumber);
+    }
+
+    @RequestMapping(value = "getCustomerStatusOfLoan", method = RequestMethod.GET)
+    public String getCustomerStatusOfLoan(@RequestParam Integer customerId) {
+        return loanService.getCustomerStatusOfLoan(customerId);
+    }
 
     @RequestMapping(value = "deleteCustomer", method = RequestMethod.POST)
     public String deleteCustomer(Integer id){
@@ -83,26 +113,8 @@ public class CustomerController {
         return account;
     }
 
-    @RequestMapping(value = "applyNewLoan", method = RequestMethod.POST)
-    public String applyNewLoan(@RequestBody NewLoanRequest loanInfo) {
-        loanService.applyNewLoan(loanInfo);
-        String cLoan = "New Loan For Customer Add Successfull";
-        slackClient.sendMessage(cLoan);
-        return cLoan;
-
-    }
 
 
-
-    @RequestMapping(value = "getCustomerStatusOfCreditCard", method = RequestMethod.GET)
-    public String getCustomerStatusOfCreditCard(@RequestParam Integer cardNumber) {
-        return creditCardService.getStatusOfCreditCard(cardNumber);
-    }
-
-    @RequestMapping(value = "getCustomerStatusOfLoan", method = RequestMethod.GET)
-    public String getCustomerStatusOfLoan(@RequestParam Integer customerId) {
-        return loanService.getCustomerStatusOfLoan(customerId);
-    }
     @RequestMapping(value = "getCustomerTransactionAccountList", method = RequestMethod.GET)
     public List<Transaction> getCustomerTransactionAccountList(@RequestParam Integer customerId) {
         List<Transaction> transactions = transactionService.getCustomerTransactionAccountList(customerId);
