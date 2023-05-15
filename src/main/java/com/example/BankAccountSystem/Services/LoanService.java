@@ -93,6 +93,38 @@ Double interest = 3.5;
 
     public String generateReportForLoanPayment() {
 
-        
+        public String generateReportForLoanPayment() {
+            List<LoanPayment> findAllLoan = loanPaymentRepository.getAllLoan();
+            List<LoanPaymentDTO> loanPaymentDTOS = new ArrayList<>();
+
+            for (LoanPayment loanPayment : findAllLoan) {
+                Loan loanPayment1 = loanPayment.getLoan();
+
+                LoanPaymentDTO loanPaymentDTO = new LoanPaymentDTO(
+                        loanPayment.getId(),
+                        loanPayment1.getId(),
+                        loanPayment1.getAmount(),
+                        loanPayment.getPaymentAmount(),
+                        loanPayment.getPaymentDate()
+
+                );
+
+                loanPaymentDTOS.add(loanPaymentDTO);
+            }
+
+            File file = new File("C:\\Users\\user015\\Documents\\BankAccountSystem\\src\\main\\resources\\LoanPaymentReport.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(loanPaymentDTOS);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("CreatedBy", "Ruqiya");
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, pathToReports + "\\LoanPaymentReport.pdf");
+
+            return "Report generated: " + pathToReports + "\\LoanPaymentReport.pdf";
+        }
+
+
+
     }
 }
