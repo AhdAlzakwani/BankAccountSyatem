@@ -43,18 +43,19 @@ AccountReprository accountReprository;
 
     public void addTransaction(AccountTransection transactionInfo){
 
-
+        Double fees = 0.150;
         Transaction transactions = new Transaction();
         transactions.setAmount(transactionInfo.getAccountAmount());
         Integer accountId = accountReprository.findByAccountNumber(transactionInfo.getAccountNumber());
         Account customer = accountReprository.findById(accountId).get();
+        Double transactionWithFees = transactionInfo.getAccountAmount() * fees ;
         transactions.setAccount(customer);
         transactions.setIsActive(transactionInfo.getIsActive());
         Double balance = accountReprository.getBalanceByCustomerId(transactionInfo.getCustomerId());
 
 
 
-        if(transactionInfo.getAccountAmount() > balance)
+        if(transactionWithFees > balance)
         {
 
             try {
@@ -87,7 +88,7 @@ AccountReprository accountReprository;
             account.setCustomer(customerId);
 
             account.setAccountNumber(transactionInfo.getAccountNumber());
-            Double balanceAfterTransaction = balance - transactionInfo.getAccountAmount();
+            Double balanceAfterTransaction = balance- transactionWithFees;
             account.setAccountBalance(balanceAfterTransaction);
             account.setIsActive(transactionInfo.getIsActive());
             accountReprository.save(account);
@@ -97,7 +98,7 @@ AccountReprository accountReprository;
                 mailMessage.setFrom(sender);
                 String customerMAil = customerReprository.getMailById(transactionInfo.getCustomerId());
                 mailMessage.setTo(customerMAil);
-                mailMessage.setText("Thank For Using BANK MUSCAT TO TRANSACTION \n" + "Your Balance Before Transaction was :\t" + balance + "\n You send \t" + transactionInfo.getAccountAmount() + "OR \n" + "Your Balance after Transection are :\t" + balanceAfterTransaction);
+                mailMessage.setText("Thank For Using BANK MUSCAT TO TRANSACTION \n" + "Your Balance Before Transaction was :\t" + balance + "\n You send \t" + transactionInfo.getAccountAmount() + "The Fees For Transaction : \t"+fees+ "OR \n" + "Your Balance after Transection are :\t" + balanceAfterTransaction);
                 mailMessage.setSubject("Bank Muscat Notification");
 
                 // Sending the mail
