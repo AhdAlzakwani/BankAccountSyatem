@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AccountService {
@@ -90,16 +87,15 @@ CustomerReprository customerReprository;
         return statementForAccount;
     }
 
-    public String generateReportMonthlyStatementsForAccount() throws FileNotFoundException, JRException {
-        List<Account> account = accountReprository.findAll();
+    public String generateReportMonthlyStatementsForAccount(Integer accountId) throws FileNotFoundException, JRException {
+        Account account_Id = accountReprository.findById(accountId).get();
+        List<Transaction> account = transactionReprository.getAllByAccount(account_Id);
         List<MonthlyStatmentReportForAccount> monthlyStatmentReportForAccountsList = new ArrayList<>();
-       for (Account a:account) {
-           Integer accounId= a.getId();
-           String customerName = a.getCustomer().getCustomerName();
-           String customerEmail =a.getCustomer().getCustomerEmail();
-           String customerPhoneNumber = a.getCustomer().getCustomerPhoneNumber();
-           Double accountBalance = a.getAccountBalance();
-           MonthlyStatmentReportForAccount accountReport = new MonthlyStatmentReportForAccount( accounId,  customerName,  customerEmail, customerPhoneNumber, accountBalance);
+       for (Transaction a:account) {
+           Integer transactionId = a.getId();
+           Date transactionDate = a.getCreatedDate();
+           Integer transactionAmount = a.getAmount();
+           MonthlyStatmentReportForAccount accountReport = new MonthlyStatmentReportForAccount( transactionId,  transactionDate,  transactionAmount);
            monthlyStatmentReportForAccountsList.add(accountReport);
 
        }

@@ -4,23 +4,20 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Data
 @Getter
 @Setter
 public class MonthlyStatmentReportForAccount {
 
-    Integer accountNumber;
-    String customerName;
-    String customerEmail;
-    String customerPhoneNumber;
-    Double accountBalance;
+    Integer transactionId;
+    Date transactionDate;
+    Integer transactionAmount;
 
-    public MonthlyStatmentReportForAccount(Integer accountName, String customerName, String customerEmail, String customerPhoneNumber, Double accountBalance) {
-        this.accountNumber = accountName;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
-        this.customerPhoneNumber = customerPhoneNumber;
-        this.accountBalance = accountBalance;
-
+    public MonthlyStatmentReportForAccount(Integer transactionId, Date transactionDate, Integer transactionAmount) {
+        this.transactionId = transactionId;
+        this.transactionDate = transactionDate;
+        this.transactionAmount = transactionAmount;
     }
 }

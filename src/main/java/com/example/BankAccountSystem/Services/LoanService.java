@@ -7,6 +7,7 @@ import com.example.BankAccountSystem.ObjectRequest.NewLoanRequest;
 import com.example.BankAccountSystem.Reprository.AccountReprository;
 import com.example.BankAccountSystem.Reprository.CustomerReprository;
 import com.example.BankAccountSystem.Reprository.LoanReprository;
+import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class LoanService {
     CustomerReprository customerReprository;
 @Autowired
     AccountReprository accountReprository;
+
+@Autowired
+    SlackClient slackClient;
 
 Double interest = 3.5;
 
@@ -60,5 +64,35 @@ Double interest = 3.5;
     public void deleteLoan(Integer id){
 
          loanReprository.deleteLona(id);
+    }
+
+    public Loan calculateLoanInterest(Integer loanId, Integer interestRate) {
+        Loan loan = loanReprository.findById(loanId).get();
+        Integer currentBalance = loan.getAmount();
+        Integer interestCalculation = currentBalance * interestRate;
+        Integer newBalance = currentBalance + interestCalculation;
+        loan.setAmount(newBalance);
+        loanReprository.save(loan);
+        return loan;
+    }
+
+
+    public Loan approveOrRejectLoan(Integer loanId, double cardScore) {
+        Loan loan = loanReprository.findById(loanId).get();
+
+        if (cardScore >= 850) {
+            loan.setIsActive("true");
+            slackClient.sendMessage("New laon application approved - Loan ID: " + loanId);
+        } else {
+            loan.setIsActive("false");
+            slackClient.sendMessage("New loan application rejected - Loan ID: " + loanId);
+        }
+        loanReprository.save(loan);
+        return loan;
+    }
+
+    public String generateReportForLoanPayment() {
+
+        
     }
 }

@@ -67,7 +67,39 @@ public class LoanController {
     }
 
 
+    @PostMapping("calculateLoanInterest")
+    public String calculateCardInterest(@RequestParam Integer loanId, Integer interestRate) {
 
+            Loan loan = loanService.calculateLoanInterest(loanId, interestRate);
+
+            if (loan == null) {
+                return "Loan not found with id: " + loanId;
+            }
+           return  "Interest calculation made successfully\n" +
+                    "loan Id: " + loan.getId() + "\n" +
+                    "Interest Rate: " + interestRate + "\n" +
+                    "Loan new Balance: " + loan.getAmount();
+
+    }
+
+    @PostMapping("loanStatus")
+    public String approveOrRejectLoan(@RequestParam Integer loanId, double cardScore) {
+            Loan loan = loanService.approveOrRejectLoan(loanId, cardScore);
+            String message;
+            if (loan.getIsActive().equals("true")) {
+                message = "Loan application approved";
+            } else {
+                message = "Loan not found";
+            }
+            return message;
+
+    }
+
+    @RequestMapping(value = "/LoanPaymentReport", method = RequestMethod.GET)
+    public String generateReportForLoanPayment() throws Exception {
+
+        return loanService.generateReportForLoanPayment();
+    }
 
 
 }

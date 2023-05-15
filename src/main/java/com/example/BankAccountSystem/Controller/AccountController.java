@@ -98,8 +98,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "generateReportMonthlyStatementsForAccount", method = RequestMethod.GET)
-    public void generateReport() throws Exception {
-        accountService.generateReportMonthlyStatementsForAccount();
+    public void generateReport(@RequestParam Integer accountId) throws Exception {
+        accountService.generateReportMonthlyStatementsForAccount(accountId);
 
     }
 
