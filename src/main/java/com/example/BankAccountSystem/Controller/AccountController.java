@@ -73,7 +73,7 @@ public class AccountController {
         return account;
     }
     @RequestMapping(value = "addTransactionAndUpdateAccountBalance", method = RequestMethod.GET)
-    public void addTransactionAndUpdateAccountBalance(@RequestBody AccountTransection accountTransaction){
+    public void addTransactionAndUpdateAccountBalance(@RequestBody  @Valid AccountTransection accountTransaction, BindingResult bindingResult){
         transactionService.addTransaction(accountTransaction);
     }
 
