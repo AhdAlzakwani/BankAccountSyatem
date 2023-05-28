@@ -9,8 +9,10 @@ import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "updateTransaction", method = RequestMethod.POST)
-    public String updateTransaction(@RequestBody UpdateTransactionRequest updateTransactionRequest) {
+    public String updateTransaction(@RequestBody @Valid UpdateTransactionRequest updateTransactionRequest, BindingResult bindingResult) {
         try {
             transactionService.updateTransaction(updateTransactionRequest);
             return "Transaction Updated Successfully";
