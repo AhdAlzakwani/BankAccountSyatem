@@ -9,7 +9,10 @@ import com.example.BankAccountSystem.Services.LoanService;
 import com.example.BankAccountSystem.Services.TransactionService;
 import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "api/loan")
@@ -32,7 +35,7 @@ public class LoanController {
 
 
     @RequestMapping(value = "addLoan", method = RequestMethod.POST)
-    public String addLoan(@RequestBody NewLoanRequest loan) {
+    public String addLoan(@RequestBody @Valid  NewLoanRequest loan, BindingResult bindingResult) {
         try {
             loanService.applyNewLoan(loan);
             slackClient.sendMessage("Loan Approved");
