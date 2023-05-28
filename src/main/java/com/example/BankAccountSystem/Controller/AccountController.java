@@ -9,8 +9,10 @@ import com.example.BankAccountSystem.Services.AccountService;
 import com.example.BankAccountSystem.Services.TransactionService;
 import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +29,7 @@ public class AccountController {
     SlackClient slackClient;
 
     @RequestMapping(value = "addAccount", method = RequestMethod.POST)
-    public String addAccount(@RequestBody AddNewAccountForStudent accountInfo) {
+    public String addAccount(@RequestBody @Valid AddNewAccountForStudent accountInfo, BindingResult bindingResult) {
         accountService.addAccount(accountInfo);
         String account = "Account Add Successfully";
         slackClient.sendMessage(account);
@@ -36,7 +38,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "UpdateAccount", method = RequestMethod.POST)
-    public String UpdateAccount(@RequestBody AccountInfo accountInfo) {
+    public String UpdateAccount(@RequestBody @Valid AccountInfo accountInfo, BindingResult bindingResult) {
         try {
             accountService.updateAccount(accountInfo);
             return "Account updated Successfully";

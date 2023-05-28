@@ -23,5 +23,6 @@ public class AddNewAccountForStudent {
     @Size(min = 3, max = 50)
     String customerName;
 
+    @NotNull
     String isActive;
 }
