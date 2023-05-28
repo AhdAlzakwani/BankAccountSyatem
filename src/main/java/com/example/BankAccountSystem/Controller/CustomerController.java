@@ -10,9 +10,11 @@ import com.example.BankAccountSystem.ObjectRequest.UpdateCustomerInfo;
 import com.example.BankAccountSystem.Services.*;
 import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -41,7 +43,7 @@ public class CustomerController {
     SlackClient slackClient;
 
     @RequestMapping(value = "addCustomer", method = RequestMethod.POST)
-    public String addcustomer(@RequestBody Customer customerInfo) {
+    public String addcustomer(@RequestBody @Valid Customer customerInfo, BindingResult bindingResult) {
         customerService.addCustomer(customerInfo);
         String cName = "Customer Add Successfull";
         slackClient.sendMessage(cName);
@@ -50,7 +52,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "updateCustomerInfo", method = RequestMethod.POST)
-    public String updateCustomerInfo(@RequestBody UpdateCustomerInfo updateCustomerInfo) {
+    public String updateCustomerInfo(@RequestBody @Valid UpdateCustomerInfo updateCustomerInfo, BindingResult bindingResult) {
         customerService.updateCustomerInfo(updateCustomerInfo);
         String cName = "Customer Update Successfully";
         slackClient.sendMessage(cName);
@@ -64,12 +66,11 @@ public class CustomerController {
         return account;
     }
     @RequestMapping(value = "applyNewLoan", method = RequestMethod.POST)
-    public String applyNewLoan(@RequestBody NewLoanRequest loanInfo) {
+    public String applyNewLoan(@RequestBody @Valid NewLoanRequest loanInfo, BindingResult bindingResult) {
         loanService.applyNewLoan(loanInfo);
         String cLoan = "New Loan For Customer Add Successfully";
         slackClient.sendMessage(cLoan);
         return cLoan;
-
     }
 
 

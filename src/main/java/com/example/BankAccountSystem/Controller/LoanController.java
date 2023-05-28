@@ -95,11 +95,11 @@ public class LoanController {
 
     }
 
-    @RequestMapping(value = "/LoanPaymentReport", method = RequestMethod.GET)
-    public String generateReportForLoanPayment() throws Exception {
-
-        return loanService.generateReportForLoanPayment();
-    }
+//    @RequestMapping(value = "/LoanPaymentReport", method = RequestMethod.GET)
+//    public String generateReportForLoanPayment() throws Exception {
+//
+//        return loanService.generateReportForLoanPayment();
+//    }
 
 
 }
