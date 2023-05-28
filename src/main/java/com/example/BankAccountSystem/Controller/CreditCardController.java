@@ -8,8 +8,10 @@ import com.example.BankAccountSystem.ObjectRequest.NewCreditCardInfo;
 import com.example.BankAccountSystem.Services.CreditCardService;
 import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +27,7 @@ public class CreditCardController {
 
 
     @RequestMapping(value = "addCreditCard", method = RequestMethod.POST)
-    public String addCreditCard(@RequestBody NewCreditCardInfo creditCard) {
+    public String addCreditCard(@RequestBody @Valid  NewCreditCardInfo creditCard, BindingResult bindingResult) {
         creditCardService.addCreditCard(creditCard);
         String creditCards = "CreditCard Add Successfully";
         slackClient.sendMessage(creditCards);
@@ -45,7 +47,7 @@ public class CreditCardController {
     }
 
     @RequestMapping(value = "customerPaymentCreditCard", method = RequestMethod.POST)
-    public String getCustomerPaymentCreditCard(@RequestBody CustomerPayment customerPayment){
+    public String getCustomerPaymentCreditCard(@RequestBody @Valid CustomerPayment customerPayment, BindingResult bindingResult){
         try{
          creditCardService.addCreditCardPayment(customerPayment);
             return "Payment Send Successfully";
