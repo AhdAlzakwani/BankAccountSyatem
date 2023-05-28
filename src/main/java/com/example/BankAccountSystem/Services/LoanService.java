@@ -34,7 +34,7 @@ Double interest = 3.5;
         loan.setIsActive(loanInfo.getIsActive());
         Integer customerId = accountReprository.getCustomerIdByaccountNumber(loanInfo.getAccountNumber());
         Customer customer = customerReprository.findById(customerId).get();
-        loan.setCoustomer(customer);
+        loan.setCustomer(customer);
         loan.setInterest(loanInfo.getAmount() * interest);
         loanReprository.save(loan);
 
@@ -59,6 +59,10 @@ Double interest = 3.5;
     public String getCustomerStatusOfLoan( Integer customerId){
         return loanReprository.getCustomerStatusOfLoan(customerId);
     }
+
+//    public Loan getCustomerLoan( Integer customerId){
+//        return loanReprository.getCustomerLoan(customerId);
+//    }
 
     public String getStatusOfLoan(Integer loanId){
         return loanReprository.getStatusOfLoan(loanId);

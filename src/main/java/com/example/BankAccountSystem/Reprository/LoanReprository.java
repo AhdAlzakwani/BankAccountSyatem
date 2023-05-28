@@ -16,6 +16,9 @@ public interface LoanReprository extends JpaRepository<Loan, Integer> {
     @Query(value = "Select is_active from loan where id = :loanId", nativeQuery = true)
     String getStatusOfLoan(@Param("loanId") Integer loanId);
 
+//    @Query(value = "Select s from Loan s where s.customer.id = :customerId")
+//    Loan getCustomerLoan(@Param("customerId") Integer customerId);
+
     @Query(value = "Update Loan c SET c.isActive='false' WHERE c.id = :id")
     void deleteLona(@Param("id")Integer id);
 

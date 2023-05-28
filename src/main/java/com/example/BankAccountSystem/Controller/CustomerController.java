@@ -12,6 +12,7 @@ import com.example.BankAccountSystem.Slack.SlackClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 
 import javax.validation.Valid;
@@ -92,7 +93,15 @@ public class CustomerController {
     @RequestMapping(value = "getCustomerStatusOfLoan", method = RequestMethod.GET)
     public String getCustomerStatusOfLoan(@RequestParam Integer customerId) {
         return loanService.getCustomerStatusOfLoan(customerId);
+
     }
+
+//    @RequestMapping(value = "getCustomerLoan", method = RequestMethod.GET)
+//    public String getCustomerLoan(@RequestParam Integer customerId) {
+//        Loan loan =  loanService.getCustomerLoan(customerId);
+//        String isActiveEncode = HtmlUtils.htmlEscape(loan.getCustomer().getCustomerName());
+//        return isActiveEncode;
+//    }
 
     @RequestMapping(value = "deleteCustomer", method = RequestMethod.POST)
     public String deleteCustomer(Integer id){

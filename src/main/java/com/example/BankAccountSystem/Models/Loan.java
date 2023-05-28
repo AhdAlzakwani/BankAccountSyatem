@@ -20,5 +20,5 @@ public class Loan extends BaseEntity{
     Double interest;
     @ManyToOne
     @JoinColumn(name = "Customer_id",referencedColumnName = "id")
-    Customer coustomer;
+    Customer customer;
 }
